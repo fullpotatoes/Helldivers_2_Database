@@ -1,6 +1,5 @@
 import os
 import django
-import sys
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Helldivers_2_Database.settings')
