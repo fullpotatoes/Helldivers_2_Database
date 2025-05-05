@@ -1,6 +1,10 @@
-from django.urls import path
-from .views import factionsList
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import FactionVIewSet
+
+router = DefaultRouter()
+router.register(r'factions', FactionVIewSet)
 
 urlpatterns = [
-    path('factions/', factionsList.as_view(), name='factions-list'),
+    path('', include(router.urls)),
 ]
