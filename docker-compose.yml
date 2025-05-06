@@ -5,7 +5,11 @@ services:
     build: .
     command: bash -c "python manage.py check --database default && python manage.py migrate && gunicorn Helldivers_2_Database.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:/app
+      - ./Helldivers_2_Database:/app/Helldivers_2_Database
+      - ./Ressources:/app/Ressources
+      - ./templates:/app/templates
+      - ./manage.py:/app/manage.py
+      - ./import_json_data.py:/app/import_json_data.py
     ports:
       - "8000:8000"
     env_file:
