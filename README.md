@@ -52,3 +52,45 @@ To test the database connection:
 ```bash
 python test_db_connection.py
 ```
+
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment. The CI/CD pipeline includes:
+
+- Automated testing
+- Code linting
+- Security scanning
+- Code coverage tracking
+- Docker image building
+- Automated deployment to staging and production environments
+
+For more details about the CI/CD setup, see the [CI/CD documentation](.github/workflows/README.md).
+
+### Running the CI/CD Pipeline Locally
+
+You can test parts of the CI/CD pipeline locally:
+
+1. Run tests:
+```bash
+python manage.py test
+```
+
+2. Run linting:
+```bash
+pip install flake8
+flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+```
+
+3. Run security scanning:
+```bash
+pip install bandit safety
+bandit -r . -x ./tests,./venv
+safety check -r requirements.txt
+```
+
+4. Run tests with coverage:
+```bash
+pip install coverage
+coverage run --source='.' manage.py test
+coverage report
+```
