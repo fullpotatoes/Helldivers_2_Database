@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     FactionViewSet, SectorViewSet, BiomeViewSet, EnvironmentalViewSet, PlanetViewSet,
     WeaponTypeViewSet, FireModeViewSet, WeaponTraitViewSet, WeaponViewSet,
-    ArmorSlotViewSet, ArmorPassiveViewSet, ArmorViewSet, BoosterViewSet, ItemViewSet
+    ArmorSlotViewSet, ArmorPassiveViewSet, ArmorViewSet, BoosterViewSet, ItemViewSet, hello_world
 )
 
 router = DefaultRouter()
@@ -23,5 +23,7 @@ router.register(r'boosters', BoosterViewSet)
 router.register(r'items', ItemViewSet)
 
 urlpatterns = [
+    path('hello/', hello_world, name='hello_world'),
     path('', include(router.urls)),
+    path('admin/', include(router.urls))
 ]

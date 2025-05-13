@@ -49,7 +49,7 @@ ROOT_URLCONF = 'Helldivers_2_Database.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'api/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,6 +79,11 @@ DATABASES = {
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
         'PORT': 5432,
+        'TEST': {
+            'NAME': 'test_' + tmpPostgres.path.replace('/', ''),
+            'SERIALIZE': False,  # Speeds up tests by not serializing DB
+        },
+        'CONN_MAX_AGE': 0,  # Close connections immediately after they're used
     }
 }
 
@@ -132,3 +137,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# Custom test runner to handle database connections properly
+TEST_RUNNER = 'Helldivers_2_Database.test_runner.TestRunner'

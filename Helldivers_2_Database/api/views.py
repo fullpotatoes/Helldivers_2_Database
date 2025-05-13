@@ -1,6 +1,5 @@
+from django.shortcuts import render
 from rest_framework import viewsets, generics, status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from .models import (
     Faction, Sector, Biome, Environmental, Planet,
     WeaponType, FireMode, WeaponTrait, Weapon,
@@ -11,6 +10,9 @@ from .serializers import (
     WeaponTypeSerializer, FireModeSerializer, WeaponTraitSerializer, WeaponSerializer,
     ArmorSlotSerializer, ArmorPassiveSerializer, ArmorSerializer, BoosterSerializer, ItemSerializer
 )
+
+def hello_world(request):
+    return render(request, 'hello_world.html')
 
 class FactionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Faction.objects.all()
