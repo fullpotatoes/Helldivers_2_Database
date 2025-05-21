@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics, status
+from rest_framework import viewsets
 from .models import (
     Faction, Sector, Biome, Environmental, Planet,
     WeaponType, FireMode, WeaponTrait, Weapon,
@@ -12,7 +12,22 @@ from .serializers import (
 )
 
 def hello_world(request):
-    return render(request, 'hello_world.html')
+    # Create a context dictionary with data to pass to the template
+    context = {
+        'title': 'Hello Helldivers',
+        'message': 'Welcome to the Helldivers 2 Database!',
+        'items': ['Liberty', 'Democracy', 'Freedom'],
+    }
+    return render(request, 'planets.html', context)
+
+def planet_list(request):
+    planets = Planet.objects.all()
+    context = {
+        'title': 'Planets',
+        'message': 'List of all planets in the Helldivers 2 universe',
+        'planets': planets
+    }
+    return render(request, 'planets.html', context)
 
 class FactionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Faction.objects.all()

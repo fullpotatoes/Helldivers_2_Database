@@ -34,9 +34,10 @@ Add a new view function in your views.py file:
 # Add this import at the top of the file
 from django.shortcuts import render
 
+
 # Add this view function
 def hello_world(request):
-    return render(request, 'hello_world.html')
+    return render(request, 'planets.html')
 ```
 
 ## 3. Configure the URL

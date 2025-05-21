@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .view-toggle {
+            margin-bottom: 20px;
+        }
+        .view-toggle button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .view-toggle button.active {
+            background-color: #2c3e50;
+        }
+        .planet-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .planet-card {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .planet-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .planet-info {
+            margin-bottom: 5px;
+        }
+        .environmentals {
+            margin-top: 10px;
+        }
+        .environmental-tag {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+        }
+        .planet-board {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .planet-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .planet-table th, .planet-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .planet-table th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: bold;
+        }
+        .planet-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .planet-table .environmental-tag {
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+
+    <div class="view-toggle">
+        <button id="card-view-btn" class="active">Card View</button>
+        <button id="board-view-btn">Board View</button>
+    </div>
+
+    <div id="card-view" class="planet-list">
+        {% for planet in planets %}
+            <div class="planet-card">
+                <div class="planet-name">{{ planet.name }}</div>
+                <div class="planet-info"><strong>Sector:</strong> {{ planet.sector.name }}</div>
+                <div class="planet-info"><strong>Biome:</strong> {{ planet.biome.name }}</div>
+
+                {% if planet.environmentals.all %}
+                    <div class="environmentals">
+                        <strong>Environmental Factors:</strong>
+                        <div>
+                            {% for env in planet.environmentals.all %}
+                                <span class="environmental-tag">{{ env.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if planet.name_en_US or planet.name_fr_FR or planet.name_de_DE %}
+                    <div class="planet-info">
+                        <strong>Localized Names:</strong>
+                        <ul>
+                            {% if planet.name_en_US %}<li>English (US): {{ planet.name_en_US }}</li>{% endif %}
+                            {% if planet.name_en_GB %}<li>English (GB): {{ planet.name_en_GB }}</li>{% endif %}
+                            {% if planet.name_fr_FR %}<li>French: {{ planet.name_fr_FR }}</li>{% endif %}
+                            {% if planet.name_de_DE %}<li>German: {{ planet.name_de_DE }}</li>{% endif %}
+                            {% if planet.name_es_ES %}<li>Spanish: {{ planet.name_es_ES }}</li>{% endif %}
+                            {% if planet.name_it_IT %}<li>Italian: {{ planet.name_it_IT }}</li>{% endif %}
+                            {% if planet.name_ja_JP %}<li>Japanese: {{ planet.name_ja_JP }}</li>{% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No planets found in the database.</p>
+        {% endfor %}
+    </div>
+
+    <div id="board-view" class="planet-board">
+        <table class="planet-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Sector</th>
+                    <th>Biome</th>
+                    <th>Environmental Factors</th>
+                    <th>Localized Names</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for planet in planets %}
+                    <tr>
+                        <td>{{ planet.name }}</td>
+                        <td>{{ planet.sector.name }}</td>
+                        <td>{{ planet.biome.name }}</td>
+                        <td>
+                            {% for env in planet.environmentals.all %}
+                                <span class="environmental-tag">{{ env.name }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if planet.name_en_US %}<div>English (US): {{ planet.name_en_US }}</div>{% endif %}
+                            {% if planet.name_en_GB %}<div>English (GB): {{ planet.name_en_GB }}</div>{% endif %}
+                            {% if planet.name_fr_FR %}<div>French: {{ planet.name_fr_FR }}</div>{% endif %}
+                            {% if planet.name_de_DE %}<div>German: {{ planet.name_de_DE }}</div>{% endif %}
+                            {% if planet.name_es_ES %}<div>Spanish: {{ planet.name_es_ES }}</div>{% endif %}
+                            {% if planet.name_it_IT %}<div>Italian: {{ planet.name_it_IT }}</div>{% endif %}
+                            {% if planet.name_ja_JP %}<div>Japanese: {{ planet.name_ja_JP }}</div>{% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No planets found in the database.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardViewBtn = document.getElementById('card-view-btn');
+            const boardViewBtn = document.getElementById('board-view-btn');
+            const cardView = document.getElementById('card-view');
+            const boardView = document.getElementById('board-view');
+
+            // Function to switch to card view
+            function showCardView() {
+                cardView.style.display = 'grid';
+                boardView.style.display = 'none';
+                cardViewBtn.classList.add('active');
+                boardViewBtn.classList.remove('active');
+            }
+
+            // Function to switch to board view
+            function showBoardView() {
+                cardView.style.display = 'none';
+                boardView.style.display = 'block';
+                cardViewBtn.classList.remove('active');
+                boardViewBtn.classList.add('active');
+            }
+
+            // Set up event listeners for the buttons
+            cardViewBtn.addEventListener('click', showCardView);
+            boardViewBtn.addEventListener('click', showBoardView);
+
+            // Initialize with card view
+            showCardView();
+        });
+    </script>
+</body>
+</html>
