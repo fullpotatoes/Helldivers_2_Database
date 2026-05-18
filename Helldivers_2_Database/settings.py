@@ -20,6 +20,12 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else []
 
+# Add Vercel domain if running on Vercel
+if os.getenv('VERCEL'):
+    ALLOWED_HOSTS.append('.vercel.app')
+    ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.append('127.0.0.1')
+
 
 # Application definition
 
